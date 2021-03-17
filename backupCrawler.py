@@ -5,8 +5,6 @@
 
 from shutil import copy2 as shcopy2
 import os
-target_dir = "/home/target"
-backup_dir = "/home/backup"
 
 ### Main recursive function 
 def dir_crawler(dir_crawled, backup_create=True):
@@ -40,6 +38,21 @@ def dir_crawler(dir_crawled, backup_create=True):
             shcopy2(file_path, bk_file)
         else :
             print("STRANGE %s" % element.name)
+            
+
+### Argument Handling
+parser = argparse.ArgumentParser(
+        description = "This program create a backup of a specified directory"
+        )
+
+parser.add_argument("-d", "--directory", required = True,
+        help = "Specify the directory to backup")
+
+parser.add_argument("-b", "--backup-dir", required = True,
+        help = "Specify the directory where to put the backup")
+
+target_dir = parser.parse_args().directory
+backup_dir = parser.parse_args().backup_dir
 
 ### Main
 dir_crawler(target_dir, False)
